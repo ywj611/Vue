@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>02_v-cloak的学习</title>
+		<!--1、导入Vue的包-->
+        <style>
+        	[v-cloak]{
+        		display: none;
+        	}
+        </style>
+	</head>
+	<body>
+		<div id="app">
+			<!--使用v-cloak能够解决 插值表达式闪烁的问题-->
+			<!--就没网速慢是没有加载到vue.js,会先显示{{msg}},然后再显示123123内容,v-cloak就是解决这个问题的-->
+			<p v-cloak>--{{msg}}+++</p>
+			<!--默认 v-text 没有闪烁问题-->
+			<!--v-text会覆盖元素中原本的内容,但是插值表达式,只会替换自己的这个占位符,不会清空整个元素内容。-->
+			<h4 v-text="msg">===</h4>
+			<!--这两个都会以普通文本输出-->
+			<div>{{msg2}}</div>
+			<div v-text="msg2"></div>
+			<!--v-html,会以html的形式输出-->
+			<div v-html="msg2"></div>
+			
+			<!--v-bind:标签="data里的变量名",是Vue中,提供的用于绑定属性的指令-->
+			<!--还可以将变量名拼接字符串 ,"" 里面的是js表达式-->
+			<!--v-bind:标签="" ==> 简写  :标签=""-->
+			<input type="button" value="按钮1" v-bind:title="mytitle" />
+			<input type="button" value="按钮2" v-bind:title="mytitle+'123'" />
+			<input type="button" value="按钮3" :title="mytitle+'123'" />
+			
+			<hr/>
+			<!--Vue 中提供了 v-on: 事件绑定机制 缩写 是 @-->
+			<input type="button" value="绑定事件" v-on:click="show"/>
+			<input type="button" value="鼠标事件" v-on:mouseover="mouse"/>
+			<input type="button" value="鼠标事件-测试缩写" @mouseover="mouse"/>
+		</div>
+		<script src="lib/vue.js"></script>
+		<script>
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					msg:'123123',
+					msg2:'<h1>哈哈哈哈哈</h1>',
+					mytitle:'这是一个自己定义的title'
+				},
+				methods:{//这个methods属性定义了当前Vue实例所有可用的方法
+					show:function(){
+						alert('Hello')
+					},
+					mouse:function(){
+						console.log("hello world!!!!!!")
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
